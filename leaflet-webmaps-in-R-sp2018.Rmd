@@ -15,7 +15,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Welcome! While we're waiting:
 
-* Please download the workshop files from: http://bit.ly/leaflet-workshop-sp2018
+* Please download the workshop files from: [https://github.com/dlab-geo/r-leaflet-workshop](https://github.com/dlab-geo/r-leaflet-workshop)
+    * Zipfile link: [https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip](https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip)
 * Download zip folder, unzip, and open the file titled: *leaflet-webmaps-in-R-sp2018.html*
 
 ```{r, echo=FALSE, fig.height=3, fig.width=10.25, message=FALSE, warning=FALSE}
