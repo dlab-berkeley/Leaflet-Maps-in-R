@@ -1,7 +1,7 @@
 ---
 title: "WebMaps in R with Leaflet"
 author: "Patty Frontiera"
-date: "3/8/2018"
+date: "May 2018"
 output: 
   ioslides_presentation
   
@@ -11,23 +11,20 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R WebMaps with Leaflet
+## WebMaps in R with Leaflet
 
 Welcome! While we're waiting:
 
 * Please download the workshop files from: [https://github.com/dlab-geo/r-leaflet-workshop](https://github.com/dlab-geo/r-leaflet-workshop)
-    * Zipfile link: [https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip](https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip)
-* Download zip folder, unzip, and open the file titled: *leaflet-webmaps-in-R-sp2018.html*
+   
+* Unzip the Zipfile: [https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip](https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip)
 
-```{r, echo=FALSE, fig.height=3, fig.width=10.25, message=FALSE, warning=FALSE}
-library(leaflet)
-library(RColorBrewer)
-library(rgdal)
-library(htmlwidgets)
-library(magrittr)
+* Open RStudio
 
-leaflet() %>% addTiles()
-```
+* Open a new R script file
+
+
+
 
 #Introduction
 
@@ -56,6 +53,7 @@ This workshop/tutorial will walk you through the basics of using the Leaflet map
 * *Raw code* (leaflet-webmaps-in-R-sp2018.R)
 * *Slides* (leaflet-webmaps-in-R-sp2018-slides.html)
 
+Make sure you can copy and paste from one of the above into the script.
 
 To begin, lets set up our packages and environment.
 
@@ -87,8 +85,12 @@ Install any packages that you do not have on your computer
 # install.packages("magrittr") # or dplyr
 ```
 
-##Set working directory
-![](./data/swd.png)
+## Set working directory
+
+to the folder in which you unzipped the workshop files
+
+<img src="./data/swd.png" width="600px"></img>
+
 
 # Leaflet
 
@@ -105,7 +107,7 @@ We can use the R `leaflet` package to create Leaflet maps in R
 # Our First Leaflet Map
 
 ## Our first Leaflet map
-```{r, message=FALSE, results="hide"}
+```{r,eval=F}
 map1 <- leaflet()       # Initialize the map object
 map1 <- addTiles(map1)  # Add basemap tiles
 map1                    # Display the map
@@ -113,24 +115,27 @@ map1                    # Display the map
 
 ## Our first Leaflet map
 
-```{r, echo=F}
-# map1 <- leaflet()       # Initialize the map object
-# map1 <- addTiles(map1)  # Add basemap tiles - default is OpenStreetMap
+```{r}
+map1 <- leaflet()       # Initialize the map object
+map1 <- addTiles(map1)  # Add basemap tiles - default is OpenStreetMap
 map1                    # Display the map
 
 ```                  
 
 ## Setting the view
 
-Note, we are adding to an exisiting `map1`
+We specify the `center` and `zoom` level for the map
+
 ```{r, message=FALSE, results="hide"}
-map1 <- setView(map1, lat=37.870044, lng=-122.258169, zoom = 15)
-map1
+map1 <- leaflet() %>%
+        addTiles() %>%  
+        setView(lat=37.870044, lng=-122.258169, zoom = 15)
+map1  
 ```
 
 ## Setting the view
-```{r, echo=F}
-map1
+```{r}
+map1  # setView(lat=37.870044, lng=-122.258169, zoom = 15)
 ```
 
 
@@ -165,7 +170,7 @@ map1
 ```
 map2 <- leaflet() %>%
         addTiles() %>%  
-        setView(lat=37.870044, lng=-122.258169, zoom = 18)
+        setView(lat=37.870044, lng=-122.258169, zoom = 15)
 map2   
 ```
 
@@ -179,26 +184,21 @@ Rerun the `piping` code changing the zoom level
 - What zoom level shows all of berkeley?
 - What is the max/min zoom level that returns a basemap?
 
-## Changing the basemap
+## The basemap
 
-By Default, Leaflet uses the [OpenStreetMap](https://www.openstreetmap.org/#map=5/38.007/-95.844) basemap.
-
-There are a number of other freely availble basemaps that you can also use.
-
-You can customize the basemap with the `addProviderTiles` function
-
-Check out the documentation  
-``` 
-?addProviderTiles
+By Default, Leaflet uses the [OpenStreetMap](https://www.openstreetmap.org/#map=5/38.007/-95.844) basemap, which is added with the `addTiles()` function
+```{r, message=F}
+leaflet() %>% addTiles() %>% 
+           setView(lat=37.870, lng=-122.258, zoom = 15)
 ```
 
-And open the web page of available basemaps
 
-[http://leaflet-extras.github.io/leaflet-providers/preview/](http://leaflet-extras.github.io/leaflet-providers/preview/)
+## addProviderTiles
 
-## Now try a few
+Use `addProviderTiles` with the name of the `basemap` to add a different basemap.
 
-Here's the syntax - instead of using `addTiles` you use `addProviderTiles`
+Below, we are using the `ESRI World Street Map` basemap.
+
 ```{r}
 map2 <- leaflet() %>%
         addProviderTiles("Esri.WorldStreetMap") %>% 
@@ -206,32 +206,66 @@ map2 <- leaflet() %>%
  
 ```
 
+
 ## View it
 
 ```{r}
-map2
+map2   #Using ESRI WorldStreetMap basemap
 ```
 
-## Add Your own map
+## Specify a Basemap
 
-Source: [https://mapwarper.net/maps/25477#Preview_tab](https://mapwarper.net/maps/25477#Preview_tab)
+Try adding a different basemap.
+
+For example, `"CartoDB.Positron"`
+
+And open the web page of available basemaps
+
+[http://leaflet-extras.github.io/leaflet-providers/preview/](http://leaflet-extras.github.io/leaflet-providers/preview/)
+
+For more info, read the documentation  
+```{r, eval=F}
+?addProviderTiles
+```
+
+## CartoDB Positron Basemap
 
 ```{r}
+leaflet() %>% addProviderTiles("CartoDB.Positron") %>% 
+    setView(lat=37.870044, lng=-122.258169, zoom = 12)
+```
+
+## Add A Custom Map Image
+
+You can add an online, *georectified* scanned map to leaflet.
+
+There are many of these online at the [New York Public Library](http://maps.nypl.org/warper/) or [MapWarper](mapwarper.net), and other websites.
+
+Let's add this map of [Berkeley in 1880](https://mapwarper.net/maps/25477#Preview_tab)
+
+<img src="data/berkeley1880.png" width="400"></img>
+
+
+## Berkeley, 1880
+
+*Here we are combining `addTiles` and `addProviderTiles`*
+
+```{r, eval=T, results='hide'}
 mapurl <- "https://mapwarper.net/maps/tile/25477/{z}/{x}/{y}.png"
 
 map2 <- leaflet() %>%
   addProviderTiles("CartoDB.Positron") %>%
-  addTiles(mapurl) %>%  # custom
+  addTiles(mapurl) %>%  # custom map image
   setView(lat=37.870044, lng=-122.258169, zoom = 13)
    
 ```
 
-### Here we are combining `addTiles` and `addProviderTiles`  
 
-## Add a non-provider map
+
+## Berkeley, 1880
 
 ```{r }
-map2  
+map2  # Map of Berkeley, 1880 overlaid on the CartoDB basemap
 ```
 
 # Questions?
@@ -240,10 +274,12 @@ map2
 
 ## Add Data with a Marker
 
-Note that the `setView` function is commented out.
+Use `addMarkers` to add one or more data points to the map.
 
-- The map will center on the center of the data points and determine an appropriate zoom leve.
-- You can override this by using `setView`.
+The map will automatically center on the data and determine an appropriate zoom level - if you don't use `setView` (commented out below).
+
+You can override this by using `setView`.
+
 ```{r}
 map3 <- leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
@@ -295,7 +331,7 @@ map4 <- leaflet() %>%
   addTiles() %>%   
   addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, 
             popup= paste("Address:", sfhomes$Address,
-                         "<br>", 
+                         "<br>", # add line break
                          "Property Value: ", sfhomes$Value))
 
 ```
@@ -303,14 +339,13 @@ map4 <- leaflet() %>%
 ## Map the data
 
 ```{r}
-map4    # Thoughts?
+map4    # How did we map the data frame?
 ```
 
 ## Popups Made Easier
 
-We can save the popup code as a string and re-use it instead of typing it over and over again.
+We can save the popup code and re-use it instead of typing it over and over again.
 
-* Note a little HTML knowledge can go a long way!
 ```{r}
 popup_content <- paste("<b>Address:</b>", sfhomes$Address,"<br>", 
                        "<b>Property Value</b>: ", sfhomes$Value, "<br>",
@@ -318,28 +353,53 @@ popup_content <- paste("<b>Address:</b>", sfhomes$Address,"<br>",
                        "<b>Num Bedrooms: </b>", sfhomes$NumBeds, "<br>",
                        "<b>Num Bathrooms:</b>", sfhomes$NumBaths
                        )
+
+
+
+map4 <- leaflet() %>%
+          addTiles() %>%   
+          addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, 
+                     popup= popup_content)
 ```
 
-## Map the data
-
-We can also use shorter syntax
-
-
+## Customizing the Popup
 ```{r}
- 
-map4 <- leaflet(sfhomes) %>%
+leaflet() %>%  addTiles() %>%   
+      addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, popup= popup_content)
+```
+
+
+## Shorter syntax
+
+Instead of this:
+```{r, eval=F}
+leaflet() %>%  
+  addTiles() %>%   
+  addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, popup= popup_content)
+```
+
+
+We can use this syntax:
+```{r, eval=F}
+leaflet(sfhomes) %>%
   addTiles() %>%   
   addMarkers(~lon, ~lat, popup = popup_content)
 ```
 
-- By passing in the name of the data object to `leaflet` we can reference column values directly.
-- Note also that we are using the `tilde` operator to map the data to the addMarkers function.
-- When `lng` and `lat` are not named (e.g. `lng=lon`) then they must be in the expected order (lng, lat).
+## Shorter Syntax
 
-## Map the data
-```{r }
-map4   # - check out the popups now
+By passing in the name of the data object (`sfhomes`) to `leaflet` we can reference column names directly.
+
+Below we are using the `tilde` (~) operator to map the data to the addMarkers function.
+
+When the addMarkers function arguments `lng=` and `lat=` are not named they must be in the expected order (lng, lat).
+
+```{r, eval=F}
+leaflet(sfhomes) %>%
+  addTiles() %>%   
+  addMarkers(~lon, ~lat, popup = popup_content)
 ```
+
 
 ## Dig deeper
 
@@ -347,6 +407,7 @@ The map is too crowded with Markers.
 
 Read the `addMarker` documentation for options to address this.
 ```{r, eval=FALSE}
+
 addMarkers(map, lng = NULL, lat = NULL, layerId = NULL, 
            group = NULL, icon = NULL, popup = NULL, 
            options = markerOptions(), 
@@ -375,7 +436,7 @@ map4  # Explore the Map - hover over a cluster marker, zoom in.
 
 ## Mapping Points as Circles
 
-`addCirleMarker`
+`addCircleMarker`
 
 ```{r}
 map4 <- leaflet(sfhomes) %>%
@@ -386,7 +447,7 @@ map4 <- leaflet(sfhomes) %>%
 
 ## Mapping Points as Circles
 
-`addCirleMarker`
+`addCircleMarker`
 
 ```{r}
 
@@ -454,18 +515,18 @@ map4 <- leaflet(sfhomes) %>%
 ## Mapping Points by Size
 
 ```{r}
-map4
+map4  # Size is a function of what variable?
 ```
 
 ## addCircles vs addCircleMarkers
 
-Circles and Circle Markers look quite similar.
+`Circles` and `CircleMarkers` look quite similar.
 
-Circle radii are specified in meters while Circle Markers are specified in pixels.
+`Circle` radii are specified in meters while `CircleMarkers` are specified in pixels.
 
 
 ```{r}
-map4 <- leaflet(sfhomes) %>%
+map4b <- leaflet(sfhomes) %>%
   addProviderTiles("CartoDB.Positron") %>%
   addCircles(~lon, ~lat, popup=popup_content,
              fillColor= NA, color="Red", 
@@ -478,7 +539,7 @@ map4 <- leaflet(sfhomes) %>%
 
 ##
 ```{r}
-map4
+map4b  # Compare map4 and map4b at different zoom levels
 ```
 
 # Mapping Data by Color
@@ -488,6 +549,12 @@ map4
 The RColorBrewer package is widely used to create color palettes for maps.
 
 - A color palette is a set of colors
+
+There are 3 different types of  color palettes
+
+1. Qualitative Color Palettes
+2. Sequential Color Palettes
+3. Diverging Color Palettes
 
 ## Qualitative Palettes
 
@@ -513,60 +580,38 @@ For highlighting the outliers
 display.brewer.all(type="div")
 ```
 
-## Color Mapping in leaflet
+# Color Mapping in Leaflet
 
-`colorFactor` maps categorical data to colors
+## Map Homes by Neighborhood 
+
+Let's map `sfhomes` by the values in the `Neighborhood` column.
+
+First, check out the RColorBrewer qualitative color palettes
+```{r}
+display.brewer.all(type="qual")
+```
+
+## Associate Colors with Data
+
+`leaflet::colorfactor` takes as input a color palette and a *domain* that contains the full range of possible values to be mapped.
+
 ```{r, eval =F}
 colorFactor(palette, domain, levels = NULL, ordered = FALSE,
   na.color = "#808080", alpha = FALSE, reverse = FALSE)
 ```
 
 
-`colorNumeric` applies a simple linear mapping of numeric data to color palette
-```{r, eval=F}
-colorNumeric(palette, domain, na.color = "#808080", alpha = FALSE,
-  reverse = FALSE)
-```
+`colorfactor` returns a **function** specific to that domain that can be used to output a set of color values.
 
-## Color Mapping in leaflet
-
-`colorQuantile` assigns colors to numeric data binned by `quantile`
-```{r, eval=F}
-colorQuantile(palette, domain, n = 4,
-  probs = seq(0, 1, length.out = n + 1),
-  na.color = "#808080", alpha = FALSE, reverse = FALSE)
-```
-
-
-`colorBin` also assigns colors to binned numeric data, but allows for customization
-```{r, eval=F}
-colorBin(palette, domain, bins = 7, pretty = TRUE, 
-         na.color = "#808080", alpha = FALSE, reverse = FALSE)
-```
-
-# Mapping Categories
-
-## Map Homes by Neighborhood 
-
-- with the Leaflet `colorFactor` function
-- Check out the available RColorBrewer palettes first
-```{r}
-display.brewer.all(type="qual")
-```
-
-## colorFactor
-
-`colorfactor` takes as input a color palette and a data object (domain) that contains the full range of possible values to be mapped.
-
-`colorfactor` returns a function specific to that domain that can be used to output a range of color values.
 ```{r, message=T, warning=T}
 # Create a qualitative color palette
 myColors <- colorFactor("Paired", sfhomes$Neighborhood) 
 ```
 
-## Test it
+## colorFactor
 
-```{r}
+```{r, message=F}
+myColors <- colorFactor("Paired", sfhomes$Neighborhood) 
 the_color_values <- myColors(sfhomes$Neighborhood)
 length(the_color_values)
 length(the_color_values) == length(sfhomes$Neighborhood)
@@ -594,7 +639,7 @@ map4 <- leaflet(sfhomes) %>%
 
 ## Homes by Neighborhood
 ```{r}
-map4  # what neighborhood had the most sales?
+map4  # what neighborhood has the most 2015 transactions?
 ```
 
 # Add a Legend
@@ -622,14 +667,33 @@ map4
 
 ## Mapping Colors to Numeric Values
 
-For simple linear scaling of colors to values use `colorNumeric`
+Let's map the homes by value.
 
+First, check out the sequential color palettes
 ```{r}
-#display.brewer.all(type="seq")
+display.brewer.all(type="seq")
+```
+
+## leaflet::colorNumeric
+
+For simple linear scaling of colors to values use `colorNumeric`.
+
+- This is used to create a `proportional color map`
+
+```{r, eval=F}
+colorNumeric(palette, domain, na.color = "#808080", alpha = FALSE,
+  reverse = FALSE)
+```
+
+Create the numeric color mapping function
+```{r}
 numColors <- colorNumeric("Reds", sfhomes$Value)
 ```
 
+
 ## Proportional Color Map
+
+Apply the `numColors` color mapping function to create a `proportional color map`
 
 ```{r}
 map4 <- leaflet(sfhomes) %>%
@@ -648,21 +712,31 @@ map4 <- leaflet(sfhomes) %>%
 
 ##
 ```{r}
-map4
+map4  # proportional color map
 ```
 
 ## Quantile Colors
 
-You can use `colorQuantile` to create a color palette based on quantiles
+You can use `colorQuantile` to create a color palette based on quantile binning of the data. This is used to create a `graduated color map`.
 
-`?colorQuantile`
+```{r, eval=F}
+colorQuantile(palette, domain, n = 4,
+  probs = seq(0, 1, length.out = n + 1),
+  na.color = "#808080", alpha = FALSE, reverse = FALSE)
+```
+The default is 4 bins, but you can set `n` manually (3 to 7)
 
-Default is 4 bins, but you can set n manually (3 to 7)
+
+Note: The `colorBin` function can be used to create color palettes based on different classification methods for binning the data, eg equal interval, natural breaks etc.
+
+## Creating a Graduated Color Map
+
 ```{r}
-#display.brewer.all(type="div")
+# Use colorQuantile to create a color function for the data
 quantColors <- colorQuantile("Reds", sfhomes$Value, n=5)
 
-map4 <- leaflet(sfhomes) %>%
+# Use the color function in the leaflet map
+map4b <- leaflet(sfhomes) %>%
   addProviderTiles("CartoDB.Positron") %>%
   addCircleMarkers(~lon, ~lat, popup=popup_content,
             ### <b>
@@ -676,12 +750,12 @@ map4 <- leaflet(sfhomes) %>%
 
 ## 
 ```{r}
-map4
+map4b  # Graduated color map
 ```
 
 ## Add A Legend
 ```{r}
-map4 %>%  addLegend(title = "Value", pal =  quantColors,
+map4b %>%  addLegend(title = "Value", pal =  quantColors,
                 values = ~Value, opacity = 1, 
                 position="bottomleft")
 ```
@@ -690,7 +764,7 @@ map4 %>%  addLegend(title = "Value", pal =  quantColors,
 ## Customize the Legend
 ```{r}
 
-map5 <-map4 %>%   addLegend(pal = quantColors, values = ~Value,
+map5 <-map4b %>%   addLegend(pal = quantColors, values = ~Value,
                      title = "Property Value, 2015",
                      position="bottomleft",
                      opacity=1,
@@ -704,8 +778,26 @@ map5 <-map4 %>%   addLegend(pal = quantColors, values = ~Value,
 
 ##
 ```{r}
-map5
+map5  # Graduated Color Map
 ```
+
+##  Proportional & Graduated Color Maps
+```{r, echo=F}
+leaflet(sfhomes, width="300px", height="300px") %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+             fillColor= ~numColors(Value),
+             radius=6, color="grey", weight=1, fillOpacity = 1
+             ) 
+
+leaflet(sfhomes, width="300px", height="300px") %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+             fillColor= ~quantColors(Value),
+             radius=6, color="grey", weight=1,fillOpacity = 1
+             ) 
+```
+
 
 ## Data Order
 
@@ -714,7 +806,7 @@ map5
 ```{r, }
 sfhomes_low2high <- sfhomes[order(sfhomes$Value, decreasing = FALSE),]
 
-map4 <- leaflet(sfhomes_low2high) %>%
+map5 <- leaflet(sfhomes_low2high) %>%
   addProviderTiles("CartoDB.Positron") %>%
   addCircleMarkers(~lon, ~lat, popup=popup_content,
             ### <b>
@@ -725,12 +817,11 @@ map4 <- leaflet(sfhomes_low2high) %>%
 
 ```
 
-##
-Does the output map look different from previous map?
-```{r}
-map4
-```
+## Order matters!
 
+```{r}
+map5  # points reordered from low to high value
+```
 
 
 # Questions
@@ -763,7 +854,7 @@ Next up, more complex spatial objects
 
 ## Spatial Data in R
 
-We can use the `sp` and `rgdal libaries to import, manipulate and map more complex spatial objects.
+We can use the `sp` and `rgdal` packages to import, manipulate and map more complex spatial objects.
 
 `sp` - **R classes and methods for spatial data**
 
@@ -779,16 +870,16 @@ sf_md_hhi <- readOGR(dsn="data",layer="sf_medhhincome_acs5y_16")
 
 ```
 
-Explore the data
+## Explore the spatial data object
 ```{r}
-class(sf_md_hhi)
-head(sf_md_hhi)
+summary(sf_md_hhi)
 ```
 
-## Map an SpatialPolygonsDataFrame
+## Map a SpatialPolygonsDataFrame
 
 Leaflet understands `sp` objects!!!
-  
+
+Map `sf_md_hhi` with `addPolygons`
 ```{r}
 map6 <- leaflet() %>%
   addTiles() %>%
@@ -796,13 +887,13 @@ map6 <- leaflet() %>%
 
 ```
 
-## Map an SpatialPolygonsDataFrame
+## Map a SpatialPolygonsDataFrame
 ```{r}
-map6
+map6 # using addPolygons to map sf_md_hhi
 ```
 
 
-## Adding custom symbology
+## Customizing the symbology
 
 ?addPolygons
 
@@ -816,12 +907,14 @@ addPolygons(map, lng = NULL, lat = NULL, layerId = NULL, group = NULL,
             highlightOptions = NULL, data = getMapData(map))
 ```
 
-## Adding custom symbology
+## Customizing the symbology
 
 ```{r}
 map6 <- leaflet() %>%
   setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
   addProviderTiles("CartoDB.Positron") %>%
+  
+  # Customize the symbology of the polygons
   addPolygons(data=sf_md_hhi, color="grey", weight=1,
               fillColor="Orange", fillOpacity = 0.25)
 
@@ -829,7 +922,7 @@ map6 <- leaflet() %>%
 
 ## SF Census Tracts
 ```{r}
-map6
+map6  # color="grey", weight=1, fillColor="Orange", fillOpacity = 0.25
 ```
 
 # Choropleth Maps
@@ -854,27 +947,42 @@ Recipe:
 1. Create a color function based on the values of `estimate`
 2. Map the polygons setting the color to values produced by the color function
 
-## Color palette
+## Create the Color Palette Function
 
+* First, select the name of the color palette
 ```{r}
-##display.brewer.all(type="seq")
+#display.brewer.all(type="seq") 
+```
+
+Then create the color mapping function
+```{r}
+##
 quantColors <- colorQuantile("YlOrRd", sf_md_hhi$estimate, n=5)
 ```
 
-## Apply the palette
+## Create the Choropleth map
+
+*A choropleth map is a graduated color map of polygon data.*
+
 ```{r}
 map6 <- leaflet() %>%
   setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
   addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
-              fillColor=~quantColors(estimate), fillOpacity = 0.65,
+  # 
+  ### <b>
+  addPolygons(data=sf_md_hhi, 
+              color="white", 
+              weight=1, 
+              opacity=0.5,
+              fillColor=~quantColors(estimate), 
+              fillOpacity = 0.65,
               popup = paste0("$",sf_md_hhi$estimate))
-
+   ### </b>
 ```
 
 ## Census Tracts by Med HH Income
 ```{r}
-map6
+map6  # choropleth map of median household income by census tract
 ```
 
 ## Add a legend
@@ -902,7 +1010,7 @@ map6
 
 You can add multiple data layers to a leaflet map.
 
-Let's add the assessed housing value points and see if we can find some cheaper houses in High Income census tracts.
+Let's add the `sfhomes` to the map
 
 ```{r}
 cheap <- sfhomes[sfhomes$Value < 1000000,]
@@ -910,9 +1018,13 @@ cheap <- sfhomes[sfhomes$Value < 1000000,]
 map7 <- leaflet() %>%
   setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
   addProviderTiles("CartoDB.Positron") %>%
+  
+  # Median household income polygons
   addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
               fillColor=~quantColors(estimate), fillOpacity = 0.65,
               popup = paste0("$",sf_md_hhi$estimate)) %>%
+  
+  # sfhomes points
   addCircleMarkers(data=cheap, popup=paste0("$",cheap$Value),
               color="black",weight=1, radius=6, 
               fillColor="white", fillOpacity = 0.75)
@@ -921,21 +1033,23 @@ map7 <- leaflet() %>%
 
 ## Map Overlays
 ```{r}
-map7
+map7  # sfhomes and median household income
+
 ```
 
 ## Getting Control
 
-To add 'controls' to our map, we use the function `addLayersControl()`.
+We can add a layer switcher control with `addLayersControl()`.
 
-We assign a `group` to each basemap and layer (polygon, marker, line, etc). 
+This allows us to toggle on/off the display of a map layer.
 
-Then layer switcher allows us to toggle between different basemaps and turn on/off each of the layers.
+First, we need to assign a `group` to each map layer
+
 ```{r, eval=F}
 ?addLayersControl
 ```
 
-## Assign a group
+## Assign Group & Add Layers Control
 ```{r}
 map8 <- leaflet() %>%
           setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
@@ -954,41 +1068,41 @@ map8 <- leaflet() %>%
               group="Property Values"
               ### </b>
           ) %>%
+          ### <b>
           addLayersControl(
             overlayGroups = c("Property Values","Median HH Income"),
             options = layersControlOptions(collapsed = FALSE)
+          ### </b>
         )
 
 ```
 
-## Layer Controls
+## Map with Layer Controls
 ```{r}
 map8
 ```
 
-## Add Another Baselayers
+## Add Basemap(s) to Layer Control
 
 ```{r}
 map8 <- leaflet() %>%
           setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
-          addProviderTiles("CartoDB.Positron", group="Simple") %>%
-          addProviderTiles("Esri.WorldStreetMap", group="Streets")  %>%
+          addProviderTiles("CartoDB.Positron", group="Simple Basemap") %>%
+          addProviderTiles("Esri.WorldStreetMap", group="Streets Basemap")  %>%
+          addTiles("", group="No Basemap") %>%  
+          #
           addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
               fillColor=~quantColors(estimate), fillOpacity = 0.65,
               popup = paste0("$",sf_md_hhi$estimate),
-              ### <b>
               group="Median HH Income"
-              ### </b>
           ) %>%
           addCircleMarkers(data=cheap, popup=paste0("$",cheap$Value),
               color="black",weight=1, radius=6, 
               fillColor="white", fillOpacity = 0.75,
-              ### <b>
               group="Property Values"
-              ### </b>
           ) %>%
           addLayersControl(
-            baseGroups = c("Simple", "Streets"),
+            baseGroups = c("Simple Basemap", "Streets Basemap", "No Basemap"),
             overlayGroups = c("Property Values","Median HH Income"),
             options = layersControlOptions(collapsed = FALSE)
         )
@@ -1071,11 +1185,6 @@ Demo w/Tutorial at
     
 [https://cengel.shinyapps.io/RioSlaveMarket/](https://cengel.shinyapps.io/RioSlaveMarket/)
 
-## Upcoming Workshops
-
-- Mapbox today at the [GIF](http://gif.berkeley.edu/support/workshops.html)
-
-- [Georectifiying Historical Maps](http://dlab.berkeley.edu/training/georectifying-historical-maps) at DLAB, March 14
 
 ## Thanks
 
