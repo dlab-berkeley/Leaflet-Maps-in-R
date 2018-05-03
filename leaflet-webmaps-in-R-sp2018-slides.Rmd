@@ -1174,15 +1174,29 @@ Getting more Practice
 
 ## Why `leaflet`
 
-**Powerful** You can customize it to create great interactive maps
+**Powerful** Highly customizable tool for creating great interactive maps.
 
-Integrates with `Shiny`, an R web Framework
+Integrates with `Shiny`, an R web Framework from the creators of RStudio
+
+<http://www.shinyapps.io/> A **freemium** web platform for hosting your shiny apps.
 
 [Shiny User Gallery](https://www.rstudio.com/products/shiny/shiny-user-showcase/)
     
+[Shiny online tutorial](https://shiny.rstudio.com/tutorial/)
+
+## Shiny Demo
+
+<https://pfrontiera.shinyapps.io/leaflet_shiny_test/>
+
+Files are in the tutorial folder if you want to see how this app was created.
+
+## Flexdashboard
+
+<https://rmarkdown.rstudio.com/flexdashboard/>
+
+A tool for creating Shiny dashboards via RMarkdown. A little bit easier but less customizable than Shiny.
 
 Demo w/Tutorial at 
-    
 [https://cengel.shinyapps.io/RioSlaveMarket/](https://cengel.shinyapps.io/RioSlaveMarket/)
 
 
