@@ -549,6 +549,6 @@ saveWidget(map7, file="testmap.html")
 ## ---- eval=F, echo=F-----------------------------------------------------
 ## ## Output code to script
 ## library(knitr)
-## purl("leaflet-webmaps-in-R_sp2018-slides.Rmd", output = "leaflet-webmaps-in-r-sp2018.R", documentation = 1)
+## purl("leaflet-webmaps-in-R-sp2018-slides.Rmd", output = "leaflet-webmaps-in-r-sp2018.R", documentation = 1)
 ## 
 
