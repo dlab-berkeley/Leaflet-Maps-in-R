@@ -1,0 +1,1244 @@
+---
+title: "WebMaps in R with Leaflet"
+author: "Patty Frontiera"
+date: "August 2018"
+output: 
+  ioslides_presentation
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## WebMaps in R with Leaflet
+
+Welcome! While we're waiting:
+
+* Please download the workshop files from: [https://github.com/dlab-geo/r-leaflet-workshop](https://github.com/dlab-geo/r-leaflet-workshop)
+   
+* Unzip the Zipfile: [https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip](https://github.com/dlab-geo/r-leaflet-workshop/archive/master.zip)
+
+* Open RStudio
+
+* Open a new R script file
+
+
+
+
+#Introduction
+
+##Outline
+
+Basic Maps
+
+* Marker Maps
+* Adding Popups
+
+Data Maps
+
+* Symbology for mapping point data
+* Choropleth maps
+* Adding Legends
+
+Doing More
+
+* Customizing the UI
+* Sharing your maps
+
+##Setup
+This workshop/tutorial will walk you through the basics of using the Leaflet mapping package in R. You can follow along in any of the three formats:
+
+* *Tutorial Page* (leaflet-webmaps-in-R-sp2018.html)
+* *Raw code* (leaflet-webmaps-in-R-sp2018.R)
+* *Slides* (leaflet-webmaps-in-R-sp2018-slides.html)
+
+Make sure you can copy and paste from one of the above into the script.
+
+To begin, lets set up our packages and environment.
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=8, echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+##Loading packages
+
+Load the packages we will use today
+
+```{r, message=FALSE, warning=FALSE}
+library(leaflet)
+library(RColorBrewer)
+library(sp)
+library(rgdal)
+library(htmlwidgets)
+library(magrittr) # or dplyr
+```
+
+Install any packages that you do not have on your computer
+
+```{r, eval=FALSE}
+# install.packages("leaflet")
+# install.packages("RColorBrewer")
+# install.packages("sp")
+# install.packages("rgdal")
+# install.packages("htmlwidgets")
+# install.packages("magrittr") # or dplyr
+```
+
+## Set working directory
+
+to the folder in which you unzipped the workshop files
+
+<img src="./data/swd.png" width="600px"></img>
+
+
+# Leaflet
+
+## Leaflet
+
+[Leaflet](http://leafletjs.com/) is a lightweight, yet powerful javascript library for creating interactive web maps.
+
+<img src="http://leafletjs.com/docs/images/logo.png" width="600px"></img>
+
+Leaflet maps are a combination of HTML and Javascript code that is meant to be rendered in a web browser.
+
+We can use the R `leaflet` package to create Leaflet maps in R
+
+## Why the package `leaflet`?
+
+There are a number of R packages for making Leaflet maps.
+
+- `leaflet` is actively maintained, highly customizable, and integrates well with other R libraries.
+
+- `leafletR` is less so
+
+- `tmap` is easier for getting started but less customizeable
+
+- `mapview` is intriguing...
+
+
+# Our First Leaflet Map
+
+## Our first Leaflet map
+```{r,eval=F}
+map1 <- leaflet()       # Initialize the map object
+map1 <- addTiles(map1)  # Add basemap tiles
+map1                    # Display the map
+```
+
+**Important** don't call your map object `map`
+
+## Our first Leaflet map
+
+```{r}
+map1 <- leaflet()       # Initialize the map object
+map1 <- addTiles(map1)  # Add basemap tiles - default is OpenStreetMap
+map1                    # Display the map
+
+```                  
+
+
+
+## Setting the view
+
+Specify the `center` and `zoom` level for the map
+
+```{r, message=FALSE, results="hide"}
+map1 <- leaflet() %>%
+        addTiles() %>%  
+        setView(lat=37.870044, lng=-122.258169, zoom = 15)
+map1  
+```
+
+## Setting the view
+```{r}
+map1  # setView(lat=37.870044, lng=-122.258169, zoom = 15)
+```
+
+
+## Piping Syntax
+
+**Requires `dplyr` or `magrittr` package to be loaded**
+```{r, results="hide"}
+map2 <- leaflet() %>%
+        addTiles() %>%  
+        setView(lat=37.870044, lng=-122.258169, zoom = 15)
+map2   
+```
+
+## Piping gives us the same map
+
+```{r}
+map2
+```
+
+## Syntax Comparison
+
+**Regular**
+```
+map1 <- leaflet()        
+map1 <- addTiles(map1)   
+map1 <- setView(map1, lat=37.870044, lng=-122.258169, zoom = 15)
+map1                  
+
+```
+<hr>
+**Piping**
+```
+map2 <- leaflet() %>%
+        addTiles() %>%  
+        setView(lat=37.870044, lng=-122.258169, zoom = 15)
+map2   
+```
+
+### WARNING: Don't name your map object `map`
+
+## Challenge
+
+Create a leaflet map centered on the Doe Library
+
+- You can get the coordinates by right clicking in Google Maps and selecting `what's here`
+
+Questions
+
+- What zoom level displays the names of campus buildings?
+- What zoom level shows all of Berkeley?
+- What is the max/min zoom level that returns a basemap?
+
+## The basemap
+
+By Default, Leaflet uses the [OpenStreetMap](https://www.openstreetmap.org/#map=5/38.007/-95.844) basemap, which is added with the `addTiles()` function
+```{r, message=F}
+leaflet() %>% addTiles() %>% 
+           setView(lat=37.870, lng=-122.258, zoom = 15)
+```
+
+
+## addProviderTiles
+
+Use `addProviderTiles` with the name of the `basemap` to add a different basemap.
+
+Create a leaflet map with the `ESRI World Street Map` basemap.
+
+```{r}
+map2 <- leaflet() %>%
+        addProviderTiles("Esri.WorldStreetMap") %>% 
+        setView(lat=37.870044, lng=-122.258169, zoom = 12)
+ 
+```
+
+
+## View it
+
+```{r}
+map2   #Using ESRI WorldStreetMap basemap
+```
+
+## Specify a Basemap
+
+Add a different basemap by taking a look at this web page of available basemaps
+
+[http://leaflet-extras.github.io/leaflet-providers/preview/](http://leaflet-extras.github.io/leaflet-providers/preview/)
+
+Use the `provider name` in quotes to access the basemap.
+
+## CartoDB Positron Basemap
+
+```{r}
+leaflet() %>% addProviderTiles("CartoDB.Positron") %>% 
+    setView(lat=37.870044, lng=-122.258169, zoom = 12)
+```
+
+## Getting Help
+
+For more info, read the documentation  
+
+```{r, eval=F}
+?addProviderTiles
+```
+
+
+## Add A Custom Map Image
+
+You can add an online, *georectified* scanned map to leaflet.
+
+There are many of these online at the [New York Public Library](http://maps.nypl.org/warper/) or [MapWarper](mapwarper.net), and other websites.
+
+Let's add this map of [Berkeley in 1880](https://mapwarper.net/maps/25477#Preview_tab)
+
+<img src="data/berkeley1880.png" width="400"></img>
+
+
+## Berkeley, 1880
+
+*Here we are combining `addTiles` and `addProviderTiles`*
+
+```{r, eval=T, results='hide'}
+mapurl <- "https://mapwarper.net/maps/tile/25477/{z}/{x}/{y}.png"
+
+map2 <- leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addTiles(mapurl) %>%  # custom map image
+  setView(lat=37.870044, lng=-122.258169, zoom = 13)
+   
+```
+
+
+
+## Berkeley, 1880
+
+```{r }
+map2  # Map of Berkeley, 1880 overlaid on the CartoDB basemap
+```
+
+# Questions?
+
+# Mapping Data
+
+## Add Data with a Marker
+
+Use `addMarkers` to add one or more data points to the map.
+
+```{r}
+map3 <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  #setView(lat=37.870044, lng=-122.258169, zoom = 17) %>%
+  addMarkers(lat=37.870044, lng=-122.258169, popup="Go Bears!")
+
+```
+
+The map will automatically center on the data and determine an appropriate zoom level 
+
+- You don't need to use `setView` (commented out).
+
+- But, you can override this by using `setView`.
+
+## Add Data with a Marker
+
+```{r}
+map3 <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lat=37.870044, lng=-122.258169, popup="Go Bears!")
+map3  
+```
+ 
+
+# Mapping Data Sets
+
+## The Sample Data
+
+[San Francisco Open Data Portal](https://data.sfgov.org)
+
+[SF Property Tax Rolls](https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2)
+
+This data set includes the Office of the Assessor-Recorder’s secured property tax roll spanning from 2015.
+
+We are using this as a proxy for home values.
+
+We are working with a simplified sample of the full data set.
+
+## Load the CSV file into a data frame
+
+*Set your working directory first to the folder where you downloaded the workshop files!*
+```{r }
+sfhomes <- read.csv('data/sfhomes15.csv', stringsAsFactors = FALSE)  
+str(sfhomes)
+```
+
+## Explore the data
+
+ 
+```{r }
+head(sfhomes)
+```
+
+## Map the data
+
+```{r}
+map4 <- leaflet() %>%
+  addTiles() %>%   
+  addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, 
+            popup= paste("Address:", sfhomes$Address,
+                         "<br>", # add line break
+                         "Property Value: ", sfhomes$Value))
+
+```
+
+## Display the Map
+
+```{r}
+map4    
+```
+
+## Popups Made Easier
+
+We can save the popup code and re-use it instead of typing it over and over again.
+
+```{r}
+popup_content <- paste("<b>Address:</b>", sfhomes$Address,"<br>", 
+                       "<b>Property Value</b>: ", sfhomes$Value, "<br>",
+                       "<b>Neighborhood:</b> ", sfhomes$Neighborhood, "<br>",
+                       "<b>Num Bedrooms: </b>", sfhomes$NumBeds, "<br>",
+                       "<b>Num Bathrooms:</b>", sfhomes$NumBaths
+                       )
+
+
+
+map4 <- leaflet() %>%
+          addTiles() %>%   
+          addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, 
+                     popup= popup_content)
+```
+
+## Customizing the Popup
+```{r}
+leaflet() %>%  addTiles() %>%   
+      addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, popup= popup_content)
+```
+
+
+## Shorter syntax
+
+Instead of this:
+```{r, eval=F}
+leaflet() %>%  
+  addTiles() %>%   
+  addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, popup= popup_content)
+```
+
+
+We can use this syntax:
+```{r, eval=F}
+leaflet(sfhomes) %>%
+  addTiles() %>%   
+  addMarkers(~lon, ~lat, popup = popup_content)
+```
+
+## Shorter Syntax
+
+By passing in the name of the data object (`sfhomes`) to `leaflet` we can reference column names directly.
+
+Below we are using the `tilde` (~) operator to map the data to the addMarkers function.
+
+When the addMarkers function arguments `lng=` and `lat=` are not named they must be in the expected order (lng, lat).
+
+```{r, eval=F}
+leaflet(sfhomes) %>%
+  addTiles() %>%   
+  addMarkers(~lon, ~lat, popup = popup_content)
+```
+
+
+## Dig deeper
+
+The map is too crowded with Markers.
+
+Read the `addMarker` documentation for options to address this.
+```{r, eval=FALSE}
+
+addMarkers(map, lng = NULL, lat = NULL, layerId = NULL, 
+           group = NULL, icon = NULL, popup = NULL, 
+           options = markerOptions(), 
+           clusterOptions = NULL, clusterId = NULL, 
+           data = getMapData(map))
+```
+
+## Cluster Option
+
+```{r}
+map4 <- leaflet(sfhomes) %>%
+  addTiles() %>%   
+  addMarkers(~lon, ~lat, popup= popup_content,
+            ###<b>
+            clusterOptions = 1)
+            ###</b>
+ 
+```
+
+## Cluster Option
+
+```{r}
+map4  # Explore the Map - hover over a cluster marker, zoom in.
+```
+
+
+## Mapping Points as Circles
+
+`addCircleMarker`
+
+```{r}
+map4 <- leaflet(sfhomes) %>%
+  addTiles() %>%   
+  addCircleMarkers(~lon, ~lat, popup = popup_content)
+ 
+```
+
+## Mapping Points as Circles
+
+`addCircleMarker`
+
+```{r}
+
+map4 
+```
+
+## addCircleMarkers
+
+```{r, eval=F}
+addCircleMarkers(map, lng = NULL, lat = NULL, radius = 10, 
+    layerId = NULL, group = NULL, stroke = TRUE, color = "#03F", 
+    weight = 5, opacity = 0.5, 
+    fill = TRUE, fillColor = color, ....)
+```
+
+## Customize the circleMarkers
+
+Change color, radius and stroke weight of circle markers
+
+```{r}
+map4 <- leaflet(sfhomes) %>%
+  addTiles() %>%   
+  addCircleMarkers(~lon, ~lat, popup = popup_content,
+             color="white", radius=6, weight=2,   # stroke
+             fillColor="red",fillOpacity = 0.75   # fill
+             )
+```
+- Use `colors()` to see a list of all R named colors.
+- You can expand on these with [hexidecimal color values](http://www.color-hex.com).
+
+
+## Customize the circleMarkers
+
+```{r }
+map4 
+```
+
+# Data Driven Symbology
+
+## Cartography
+
+Art + Science
+
+Finding the right symbology - size, color, shape, etc 
+
+and mapping it to your data
+
+Often requires a classification scheme
+
+## Mapping Points by Size
+
+We can symbolize the size of points by data values by making the `radius` of the circle a function of a data value.
+
+```{r}
+map4 <- leaflet(sfhomes) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+             fillColor= NA, color="Red", weight=1, fillOpacity = 0,
+             ###<b>
+             radius= ~NumBeds+2
+             ###</b>
+             )
+```
+
+## Mapping Points by Size
+
+```{r}
+map4  # Size is a function of what variable?
+```
+
+## addCircles vs addCircleMarkers
+
+`Circles` and `CircleMarkers` look quite similar.
+
+`Circle` radii are specified in meters while `CircleMarkers` are specified in pixels.
+
+
+```{r}
+map4b <- leaflet(sfhomes) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircles(~lon, ~lat, popup=popup_content,
+             fillColor= NA, color="Red", 
+             weight=1, fillOpacity = 0,
+             ###<b>
+             radius= ~NumBeds*10
+             ###</b>
+             )
+```
+
+##
+```{r}
+map4b  # Compare map4 and map4b at different zoom levels
+```
+
+# Mapping Data by Color
+
+## RColorBrewer
+
+The RColorBrewer package is widely used to create color palettes for maps.
+
+- A color palette is a set of colors
+
+There are 3 different types of  color palettes
+
+1. Qualitative Color Palettes
+2. Sequential Color Palettes
+3. Diverging Color Palettes
+
+## Qualitative Palettes
+
+Contrasting colors for categorical data
+```{r}
+ 
+display.brewer.all(type="qual") 
+display.brewer.pal(7, "Set3" )  # Try a different number of colors
+```
+
+## Sequential Palettes
+
+For highlighting trends in numerical data
+```{r}
+display.brewer.all(type="seq")
+
+```
+
+## Diverging Palettes
+
+For highlighting the outliers
+```{r}
+display.brewer.all(type="div")
+```
+
+# Color Mapping in Leaflet
+
+## Map Homes by Neighborhood 
+
+Let's map `sfhomes` by the values in the `Neighborhood` column.
+
+First, check out the RColorBrewer qualitative color palettes
+```{r}
+display.brewer.all(type="qual")
+```
+
+## Associate Colors with Data
+
+`leaflet::colorfactor` takes as input a color palette and a *domain* that contains the full range of possible values to be mapped.
+
+```{r, eval =F}
+colorFactor(palette, domain, levels = NULL, ordered = FALSE,
+  na.color = "#808080", alpha = FALSE, reverse = FALSE)
+```
+
+
+`colorfactor` returns a **function** specific to that domain that can be used to output a set of color values.
+
+```{r, message=T, warning=T}
+# Create a qualitative color palette
+myColors <- colorFactor("Paired", sfhomes$Neighborhood) 
+```
+
+## colorFactor
+
+```{r, message=F}
+myColors <- colorFactor("Paired", sfhomes$Neighborhood) 
+the_color_values <- myColors(sfhomes$Neighborhood)
+length(the_color_values)
+length(the_color_values) == length(sfhomes$Neighborhood)
+unique(the_color_values)
+
+```
+
+
+
+## Homes by Neighborhood
+
+Using a color palette
+
+```{r}
+map4 <- leaflet(sfhomes) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat,  
+             popup= popup_content,
+             ###<b>
+             fillColor= ~myColors(Neighborhood),
+             ###</b>
+             radius=6, color=NA, weight=2, fillOpacity = 1
+             )
+```
+
+## Homes by Neighborhood
+```{r}
+map4  # what neighborhood has the most 2015 transactions?
+```
+
+# Add a Legend
+
+## Add a Legend
+
+```{r}
+map4 <- leaflet(sfhomes) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+             fillColor= ~myColors(Neighborhood),
+             radius=6, color=NA, weight=2,fillOpacity = 1
+             ) %>%
+      ### <b>
+      addLegend(title = "Neighborhood", pal =  myColors,
+                values = ~Neighborhood, opacity = 1, 
+                position="bottomleft")
+      ### </b>
+```
+
+## Add a legend
+```{r}
+map4 
+```
+
+## Mapping Colors to Numeric Values
+
+Let's map the homes by value.
+
+First, check out the sequential color palettes
+```{r}
+display.brewer.all(type="seq")
+```
+
+## leaflet::colorNumeric
+
+For simple linear scaling of colors to values use `colorNumeric`.
+
+- This is used to create a `proportional color map`
+
+```{r, eval=F}
+colorNumeric(palette, domain, na.color = "#808080", alpha = FALSE,
+  reverse = FALSE)
+```
+
+Create the numeric color mapping function
+```{r}
+numColors <- colorNumeric("Reds", sfhomes$Value)
+```
+
+
+## Proportional Color Map
+
+Apply the `numColors` color mapping function to create a `proportional color map`
+
+```{r}
+map4 <- leaflet(sfhomes) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+            ### <b>
+             fillColor= ~numColors(Value),
+            ### </b>
+             radius=6, color="grey", weight=1, fillOpacity = 1
+             ) %>%
+      addLegend(title = "Property Values", pal =  numColors,
+                values = ~Value, opacity = 1, 
+                position="bottomleft")
+      
+```
+
+##
+```{r}
+map4  # proportional color map
+```
+
+## Quantile Colors
+
+You can use `colorQuantile` to create a color palette based on quantile binning of the data. This is used to create a `graduated color map`.
+
+```{r, eval=F}
+colorQuantile(palette, domain, n = 4,
+  probs = seq(0, 1, length.out = n + 1),
+  na.color = "#808080", alpha = FALSE, reverse = FALSE)
+```
+The default is 4 bins, but you can set `n` manually (3 to 7)
+
+
+Note: The `colorBin` function can be used to create color palettes based on different classification methods for binning the data, eg equal interval, natural breaks etc.
+
+## Creating a Graduated Color Map
+
+```{r}
+# Use colorQuantile to create a color function for the data
+quantColors <- colorQuantile("Reds", sfhomes$Value, n=5)
+
+# Use the color function in the leaflet map
+map4b <- leaflet(sfhomes) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+            ### <b>
+             fillColor= ~quantColors(Value),
+            ### </b>
+             radius=6, color="grey", weight=1,fillOpacity = 1
+             ) 
+
+
+```
+
+## 
+```{r}
+map4b  # Graduated color map
+```
+
+## Add A Legend
+```{r}
+map4b %>%  addLegend(title = "Value", pal =  quantColors,
+                values = ~Value, opacity = 1, 
+                position="bottomleft")
+```
+
+
+## Customize the Legend
+```{r}
+
+map5 <-map4b %>%   addLegend(pal = quantColors, values = ~Value,
+                     title = "Property Value, 2015",
+                     position="bottomleft",
+                     opacity=1,
+                     labFormat = function(type, cuts, p) {
+                      n = length(cuts)
+                      cuts = paste0("$", format(cuts[-n], big.mark=","), 
+                              " - ", "$",format(cuts[-1], big.mark=","))
+                      }
+                   )
+```
+
+##
+```{r}
+map5  # Graduated Color Map
+```
+
+##  Proportional & Graduated Color Maps
+```{r, echo=F}
+leaflet(sfhomes, width="300px", height="300px") %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+             fillColor= ~numColors(Value),
+             radius=6, color="grey", weight=1, fillOpacity = 1
+             ) 
+
+leaflet(sfhomes, width="300px", height="300px") %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+             fillColor= ~quantColors(Value),
+             radius=6, color="grey", weight=1,fillOpacity = 1
+             ) 
+```
+
+
+## Data Order
+
+*What's happening here?*  
+
+```{r, }
+sfhomes_low2high <- sfhomes[order(sfhomes$Value, decreasing = FALSE),]
+
+map5 <- leaflet(sfhomes_low2high) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(~lon, ~lat, popup=popup_content,
+            ### <b>
+             fillColor= ~quantColors(Value),
+            ### </b>
+             radius=6, color="grey", weight=1,fillOpacity = 1
+             ) 
+
+```
+
+## Order matters!
+
+```{r}
+map5  # points reordered from low to high value
+```
+
+
+# Questions
+
+# Recap
+
+## Recap
+
+Basic Maps
+
+* `addMarkers` - Simple Marker Maps
+* `addCircleMarkers` - Circle Marker Maps
+
+Data Maps
+
+* `addCircles` Proportional symbol maps
+* `colorFactor` - Category Maps
+* `colorNumeric` - Proportional color maps
+* `colorQuantile` - Graduated color maps
+
+## Geographic data
+
+We have been working with geographic data in `data frames`
+
+The coordinates are `longitude` and `latitude`
+
+Next up, more complex spatial objects
+
+# Spatial Data in R
+
+## Spatial Data in R
+
+We can use the `sp` and `rgdal` packages to import, manipulate and map more complex spatial objects.
+
+`sp` - **R classes and methods for spatial data**
+
+`rgdal` - **Functions for importing and transforming spatial data**
+
+Let's use these to import data in ESRI Shapefiles
+
+## Read in an ESRI Shapefile
+
+Read in the data
+```{r}
+sf_md_hhi <- readOGR(dsn="data",layer="sf_medhhincome_acs5y_16")
+
+```
+
+## Explore the spatial data object
+```{r}
+summary(sf_md_hhi)
+```
+
+## Map a SpatialPolygonsDataFrame
+
+Leaflet understands `sp` objects!!!
+
+Map `sf_md_hhi` with `addPolygons`
+```{r}
+map6 <- leaflet() %>%
+  addTiles() %>%
+  addPolygons(data=sf_md_hhi)
+
+```
+
+## Map a SpatialPolygonsDataFrame
+```{r}
+map6 # using addPolygons to map sf_md_hhi
+```
+
+
+## Customizing the symbology
+
+?addPolygons
+
+```{r, eval=F}
+addPolygons(map, lng = NULL, lat = NULL, layerId = NULL, group = NULL,
+            stroke = TRUE, color = "#03F", weight = 5, opacity = 0.5,
+            fill = TRUE, fillColor = color, fillOpacity = 0.2, 
+            dashArray = NULL, smoothFactor = 1, noClip = FALSE, 
+            popup = NULL, popupOptions = NULL, label = NULL, 
+            labelOptions = NULL, options = pathOptions(),
+            highlightOptions = NULL, data = getMapData(map))
+```
+
+## Customizing the symbology
+
+```{r}
+map6 <- leaflet() %>%
+  setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  
+  # Customize the symbology of the polygons
+  addPolygons(data=sf_md_hhi, color="grey", weight=1,
+              fillColor="Orange", fillOpacity = 0.25)
+
+```
+
+## SF Census Tracts
+```{r}
+map6  # color="grey", weight=1, fillColor="Orange", fillOpacity = 0.25
+```
+
+# Choropleth Maps
+
+## Choropleth Maps
+
+Color regions based on data values.
+
+The data values are classified into bins.
+
+- Quantile classification is the default.
+
+Each bin gets a unique color from a color palette.
+
+
+## Create a choropleth map
+
+Median Household Income is in the `estimate` column
+
+Recipe:
+
+1. Create a color function based on the values of `estimate`
+2. Map the polygons setting the color to values produced by the color function
+
+## Create the Color Palette Function
+
+* First, select the name of the color palette
+```{r}
+#display.brewer.all(type="seq") 
+```
+
+Then create the color mapping function
+```{r}
+##
+quantColors <- colorQuantile("YlOrRd", sf_md_hhi$estimate, n=5)
+```
+
+## Create the Choropleth map
+
+*A choropleth map is a graduated color map of polygon data.*
+
+```{r}
+map6 <- leaflet() %>%
+  setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  # 
+  ### <b>
+  addPolygons(data=sf_md_hhi, 
+              color="white", 
+              weight=1, 
+              opacity=0.5,
+              fillColor=~quantColors(estimate), 
+              fillOpacity = 0.65,
+              popup = paste0("$",sf_md_hhi$estimate))
+   ### </b>
+```
+
+## Census Tracts by Med HH Income
+```{r}
+map6  # choropleth map of median household income by census tract
+```
+
+## Add a legend
+
+```{r}
+map6 <- map6 %>% addLegend(pal = quantColors, 
+                   values = sf_md_hhi$estimate,
+                   title = "Median HH Income",
+                   position="bottomleft",
+                   opacity=1,
+                   labFormat = function(type, cuts, p) {
+                     n = length(cuts)
+                     cuts = paste0("$", format(cuts[-n], big.mark=","), 
+                             " - ", "$",format(cuts[-1], big.mark=","))
+                   }
+)
+```
+
+## Med HH Income Legend
+```{r}
+map6
+```
+
+## Map Overlays
+
+You can add multiple data layers to a leaflet map.
+
+Let's add the `sfhomes` to the map
+
+```{r}
+cheap <- sfhomes[sfhomes$Value < 1000000,]
+
+map7 <- leaflet() %>%
+  setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  
+  # Median household income polygons
+  addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
+              fillColor=~quantColors(estimate), fillOpacity = 0.65,
+              popup = paste0("$",sf_md_hhi$estimate)) %>%
+  
+  # sfhomes points
+  addCircleMarkers(data=cheap, popup=paste0("$",cheap$Value),
+              color="black",weight=1, radius=6, 
+              fillColor="white", fillOpacity = 0.75)
+
+```
+
+## Map Overlays
+```{r}
+map7  # sfhomes and median household income
+
+```
+
+## Getting Control
+
+We can add a layer switcher control with `addLayersControl()`.
+
+This allows us to toggle on/off the display of a map layer.
+
+First, we need to assign a `group` to each map layer
+
+```{r, eval=F}
+?addLayersControl
+```
+
+## Assign Group & Add Layers Control
+```{r}
+map8 <- leaflet() %>%
+          setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
+          addProviderTiles("CartoDB.Positron") %>%
+          addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
+              fillColor=~quantColors(estimate), fillOpacity = 0.65,
+              popup = paste0("$",sf_md_hhi$estimate),
+              ### <b>
+              group="Median HH Income"
+              ### </b>
+          ) %>%
+          addCircleMarkers(data=cheap, popup=paste0("$",cheap$Value),
+              color="black",weight=1, radius=6, 
+              fillColor="white", fillOpacity = 0.75,
+              ### <b>
+              group="Property Values"
+              ### </b>
+          ) %>%
+          ### <b>
+          addLayersControl(
+            overlayGroups = c("Property Values","Median HH Income"),
+            options = layersControlOptions(collapsed = FALSE)
+          ### </b>
+        )
+
+```
+
+## Map with Layer Controls
+```{r}
+map8
+```
+
+## Add Basemap(s) to Layer Control
+
+```{r}
+map8 <- leaflet() %>%
+          setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
+          addProviderTiles("CartoDB.Positron", group="Simple Basemap") %>%
+          addProviderTiles("Esri.WorldStreetMap", group="Streets Basemap")  %>%
+          addTiles("", group="No Basemap") %>%  
+          #
+          addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
+              fillColor=~quantColors(estimate), fillOpacity = 0.65,
+              popup = paste0("$",sf_md_hhi$estimate),
+              group="Median HH Income"
+          ) %>%
+          addCircleMarkers(data=cheap, popup=paste0("$",cheap$Value),
+              color="black",weight=1, radius=6, 
+              fillColor="white", fillOpacity = 0.75,
+              group="Property Values"
+          ) %>%
+          addLayersControl(
+            baseGroups = c("Simple Basemap", "Streets Basemap", "No Basemap"),
+            overlayGroups = c("Property Values","Median HH Income"),
+            options = layersControlOptions(collapsed = FALSE)
+        )
+
+```
+
+## Layer Controls
+```{r}
+map8
+```
+
+# Questions?
+
+# Sharing
+
+## Sharing your web map
+
+Interactive Maps in R - check
+
+Web Maps can be shared if online.
+
+Easy way to go is `RPubs`
+
+## RPubs
+
+You can share you map online by publishing it to [RPubs](https://rpubs.com).
+
+- You need to have an `RPubs` account to make that work.
+
+1. Enter the code for your map in the console
+
+2. In the `Viewer` window, click on the **Publish** icon.
+
+## RPubs
+
+DEMO...
+[http://rpubs.com/pfrontiera/368070](http://rpubs.com/pfrontiera/368070)
+
+## Saving your map
+
+Another way to share your map is to save it to a file.
+You can then email it, host it on your own web server or host it on github, etc.
+
+```{r}
+#library(htmlwidgets)
+saveWidget(map7, file="testmap.html")
+```
+
+Open your file to by double-clicking on it in the Mac Finder or Windows Explorer.
+
+## Doing more with your `leaflet` maps
+
+`Flexdashboard` 
+
+`Shiny`
+
+`Crosstalk`
+
+## Flexdashboard
+
+[Flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/) is a tool for creating interactive dashboards with R Markdown. 
+
+[Flexdashboard Demo](https://beta.rstudioconnect.com/jjallaire/htmlwidgets-waste-sites/htmlwidgets-waste-sites.html)
+
+
+## Shiny
+
+A framework for creating interactive web apps based on R code.
+
+[Shiny Demo](https://walkerke.shinyapps.io/neighborhood_diversity/)
+
+[Shiny User Gallery](https://www.rstudio.com/products/shiny/shiny-user-showcase/)
+    
+[Shiny online tutorial](https://shiny.rstudio.com/tutorial/)
+
+<http://www.shinyapps.io>  -  A **freemium** web platform for hosting your shiny apps.
+
+
+## Crosstalk
+
+An R package for creating interactive web documents without needing a server.
+
+<https://rstudio.github.io/crosstalk>
+
+*More functionality than Flexdashboard, less than Shiny*
+
+
+# Questions?
+
+## Next Steps
+
+Getting more Practice
+
+[Leaflet for R Tutorial](https://rstudio.github.io/leaflet/)
+
+
+
+## Thanks
+
+To you!
+
+and to Josh Pepper who did an earlier workshop on which these materials are loosely based.
+
+##
+
+```{r, eval=F, echo=F}
+## Output code to script
+library(knitr)
+purl("leaflet-webmaps-in-R-sp2018-slides.Rmd", output = "leaflet-webmaps-in-r-sp2018.R", documentation = 1)
+
+```
