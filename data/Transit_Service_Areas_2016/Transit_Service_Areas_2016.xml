@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+<idinfo>
+<descript>
+<abstract>Service area polygons created from 511 GTFS transit stops. Polygons are created using a half-mile buffer. Contains existing, planned, and stops under construction.</abstract>
+<purpose>Service area polygons created from 511 GTFS transit stops. Polygons are created using a half-mile buffer. Contains existing, planned, and stops under construction. </purpose>
+</descript>
+<keywords>
+<theme>
+<themekt>None</themekt>
+<themekey>policy</themekey>
+<themekey>transportation</themekey>
+<themekey>mtc</themekey>
+<themekey>metropolitan transportation commission</themekey>
+<themekey>abag</themekey>
+<themekey>association of bay area governments</themekey>
+<themekey>transit</themekey>
+<themekey>transit service area</themekey>
+</theme>
+</keywords>
+<accconst>None</accconst>
+<useconst>This data is intended for planning purposes only. The Metropolitan Transportation Commission (MTC) provides spatial and attribute data (also referred to as &amp;quot;information&amp;quot;) &amp;quot;as-is,&amp;quot; and shall incur no responsibility or liability as to the completeness, currentness, or accuracy of this information. The MTC, and other agencies/cities/counties from which the data were sourced, assume no responsibility arising from use of this information by individuals, businesses, or other public entities. The data is provided with no warranty of any kind, expressed or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose. Do not make any decisions based on this data before validating your decision with the appropriate city, county, or government entity.</useconst>
+<datacred>Metropolitan Transportation Commission, 511.org</datacred>
+</idinfo>
+<metainfo>
+<metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+<metstdv>FGDC-STD-001-1998</metstdv>
+<mettc>local time</mettc>
+</metainfo>
+</metadata>

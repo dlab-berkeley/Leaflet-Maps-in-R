@@ -69,30 +69,113 @@ leaflet() %>% addProviderTiles("CartoDB.Positron") %>%
 ## ---- eval=F-------------------------------------------------------------
 ## ?addProviderTiles
 
-## ---- eval=T, results='hide'---------------------------------------------
-mapurl <- "https://mapwarper.net/maps/tile/25477/{z}/{x}/{y}.png"
-
-map2 <- leaflet() %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addTiles(mapurl) %>%  # custom map image
-  setView(lat=37.870044, lng=-122.258169, zoom = 13)
-   
-
-## ------------------------------------------------------------------------
-map2  # Map of Berkeley, 1880 overlaid on the CartoDB basemap
-
-## ------------------------------------------------------------------------
+## ---- echo=F-------------------------------------------------------------
 map3 <- leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
   #setView(lat=37.870044, lng=-122.258169, zoom = 17) %>%
   addMarkers(lat=37.870044, lng=-122.258169, popup="Go Bears!")
+map3
 
+
+## ---- eval=F-------------------------------------------------------------
+## map3 <- leaflet() %>%
+##   addTiles() %>%
+##   addMarkers(lat=37.870044, lng=-122.258169, popup="Go Bears!")
+## map3
+
+## ---- echo=F-------------------------------------------------------------
+map3
+
+## ---- eval=F-------------------------------------------------------------
+## map3 <- leaflet() %>%
+##   addTiles() %>%
+##   #setView(lat=37.870044, lng=-122.258169, zoom = 17) %>%
+##   addMarkers(lat=37.870044, lng=-122.258169, popup="Go Bears!")
+## map3
+
+## ---- eval=F-------------------------------------------------------------
+## addMarkers(map, lng = NULL, lat = NULL, layerId = NULL, group = NULL,
+##   icon = NULL, popup = NULL, popupOptions = NULL, label = NULL,
+##   labelOptions = NULL, options = markerOptions(), clusterOptions = NULL,
+##   clusterId = NULL, data = getMapData(map))
 
 ## ------------------------------------------------------------------------
 map3 <- leaflet() %>%
-  addTiles() %>%  # Add default OpenStreetMap map tiles
-  addMarkers(lat=37.870044, lng=-122.258169, popup="Go Bears!")
-map3  
+  addTiles() %>%
+  addMarkers(lat=37.870044, lng=-122.258169, popup="Go Bears!") %>%
+  addMarkers(lat=37.868641, lng=-122.258537, popup="Cafe Milano")
+map3
+
+## ------------------------------------------------------------------------
+map3 <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(lat = c(37.870044,37.868641), 
+             lng = c(-122.258169,-122.258537),
+             popup = c("Go Bears", "Cafe Milano"))
+
+map3
+
+## ------------------------------------------------------------------------
+bart <- read.csv('data/bart.csv', stringsAsFactors = FALSE)  
+str(bart)
+
+## ---- results="hide"-----------------------------------------------------
+map4 <- leaflet() %>%
+         addTiles() %>%   
+         addMarkers(lat=bart$Y, lng=bart$X, 
+         popup= paste("Station:", bart$STATION))
+map4
+
+## ------------------------------------------------------------------------
+map4
+
+## ------------------------------------------------------------------------
+dir("data/BART_13/")
+
+## ------------------------------------------------------------------------
+library(rgdal)
+bart_lines <- readOGR(dsn="data/BART_13",layer="BART_13")
+
+## ------------------------------------------------------------------------
+summary(bart_lines)
+
+## ---- results="hide"-----------------------------------------------------
+map4 <- leaflet() %>%
+         addTiles() %>%   
+         addMarkers(lat=bart$Y, lng=bart$X, 
+         popup= paste("Station:", bart$STATION)) %>%   
+         addPolylines(data=bart_lines, color="red", weight=3)
+map4
+
+## ------------------------------------------------------------------------
+map4
+
+
+## ------------------------------------------------------------------------
+dir("data/Transit_Service_Areas_2016")
+
+## ------------------------------------------------------------------------
+bart_service <- readOGR(dsn="data/Transit_Service_Areas_2016",layer="bart_service_area")
+
+## ------------------------------------------------------------------------
+summary(bart_service)
+
+## ---- results="hide"-----------------------------------------------------
+map4 <- leaflet() %>%
+         addTiles() %>%   
+         addMarkers(lat=bart$Y, lng=bart$X, 
+         popup= paste("Station:", bart$STATION)) %>%   
+         addPolylines(data=bart_lines, color="red", weight=3) %>%
+         addPolygons(data=bart_service, color="blue", opacity = 0.6)
+map4
+
+## ------------------------------------------------------------------------
+map4
+
+
+## ------------------------------------------------------------------------
+#library(htmlwidgets)
+saveWidget(map4, file="bartmap.html")
 
 ## ------------------------------------------------------------------------
 sfhomes <- read.csv('data/sfhomes15.csv', stringsAsFactors = FALSE)  
@@ -121,7 +204,7 @@ popup_content <- paste("<b>Address:</b>", sfhomes$Address,"<br>",
                        "<b>Num Bathrooms:</b>", sfhomes$NumBaths
                        )
 
-
+## ------------------------------------------------------------------------
 
 map4 <- leaflet() %>%
           addTiles() %>%   
@@ -129,18 +212,12 @@ map4 <- leaflet() %>%
                      popup= popup_content)
 
 ## ------------------------------------------------------------------------
-leaflet() %>%  addTiles() %>%   
-      addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, popup= popup_content)
+map4
 
 ## ---- eval=F-------------------------------------------------------------
 ## leaflet() %>%
 ##   addTiles() %>%
 ##   addMarkers(lat=sfhomes$lat, lng=sfhomes$lon, popup= popup_content)
-
-## ---- eval=F-------------------------------------------------------------
-## leaflet(sfhomes) %>%
-##   addTiles() %>%
-##   addMarkers(~lon, ~lat, popup = popup_content)
 
 ## ---- eval=F-------------------------------------------------------------
 ## leaflet(sfhomes) %>%
@@ -236,21 +313,9 @@ display.brewer.all(type="div")
 ## ------------------------------------------------------------------------
 display.brewer.all(type="qual")
 
-## ---- eval =F------------------------------------------------------------
-## colorFactor(palette, domain, levels = NULL, ordered = FALSE,
-##   na.color = "#808080", alpha = FALSE, reverse = FALSE)
-
 ## ---- message=T, warning=T-----------------------------------------------
 # Create a qualitative color palette
-myColors <- colorFactor("Paired", sfhomes$Neighborhood) 
-
-## ---- message=F----------------------------------------------------------
-myColors <- colorFactor("Paired", sfhomes$Neighborhood) 
-the_color_values <- myColors(sfhomes$Neighborhood)
-length(the_color_values)
-length(the_color_values) == length(sfhomes$Neighborhood)
-unique(the_color_values)
-
+myColor_function <- colorFactor("Paired", sfhomes$Neighborhood) 
 
 ## ------------------------------------------------------------------------
 map4 <- leaflet(sfhomes) %>%
@@ -258,23 +323,23 @@ map4 <- leaflet(sfhomes) %>%
   addCircleMarkers(~lon, ~lat,  
              popup= popup_content,
              ###<b>
-             fillColor= ~myColors(Neighborhood),
+             fillColor= ~myColor_function(Neighborhood),
              ###</b>
              radius=6, color=NA, weight=2, fillOpacity = 1
              )
 
 ## ------------------------------------------------------------------------
-map4  # what neighborhood has the most 2015 transactions?
+map4  # what neighborhood had the most 2015 transactions?
 
 ## ------------------------------------------------------------------------
 map4 <- leaflet(sfhomes) %>%
   addProviderTiles("CartoDB.Positron") %>%
   addCircleMarkers(~lon, ~lat, popup=popup_content,
-             fillColor= ~myColors(Neighborhood),
+             fillColor= ~myColor_function(Neighborhood),
              radius=6, color=NA, weight=2,fillOpacity = 1
              ) %>%
       ### <b>
-      addLegend(title = "Neighborhood", pal =  myColors,
+      addLegend(title = "Neighborhood", pal =  myColor_function,
                 values = ~Neighborhood, opacity = 1, 
                 position="bottomleft")
       ### </b>
@@ -282,26 +347,26 @@ map4 <- leaflet(sfhomes) %>%
 ## ------------------------------------------------------------------------
 map4 
 
+## ---- eval =F------------------------------------------------------------
+## colorFactor(palette, domain, levels = NULL, ordered = FALSE,
+##   na.color = "#808080", alpha = FALSE, reverse = FALSE)
+
 ## ------------------------------------------------------------------------
 display.brewer.all(type="seq")
 
-## ---- eval=F-------------------------------------------------------------
-## colorNumeric(palette, domain, na.color = "#808080", alpha = FALSE,
-##   reverse = FALSE)
-
 ## ------------------------------------------------------------------------
-numColors <- colorNumeric("Reds", sfhomes$Value)
+numColor_function <- colorNumeric("Reds", sfhomes$Value)
 
 ## ------------------------------------------------------------------------
 map4 <- leaflet(sfhomes) %>%
   addProviderTiles("CartoDB.Positron") %>%
   addCircleMarkers(~lon, ~lat, popup=popup_content,
             ### <b>
-             fillColor= ~numColors(Value),
+             fillColor= ~numColor_function(Value),
             ### </b>
              radius=6, color="grey", weight=1, fillOpacity = 1
              ) %>%
-      addLegend(title = "Property Values", pal =  numColors,
+      addLegend(title = "Property Values", pal =  numColor_function,
                 values = ~Value, opacity = 1, 
                 position="bottomleft")
       
@@ -310,20 +375,18 @@ map4 <- leaflet(sfhomes) %>%
 map4  # proportional color map
 
 ## ---- eval=F-------------------------------------------------------------
-## colorQuantile(palette, domain, n = 4,
-##   probs = seq(0, 1, length.out = n + 1),
-##   na.color = "#808080", alpha = FALSE, reverse = FALSE)
+## colorNumeric(palette, domain, na.color = "#808080", alpha = FALSE,
+##   reverse = FALSE)
 
 ## ------------------------------------------------------------------------
-# Use colorQuantile to create a color function for the data
-quantColors <- colorQuantile("Reds", sfhomes$Value, n=5)
+quantColor_function <- colorQuantile("Reds", sfhomes$Value, n=5)
 
-# Use the color function in the leaflet map
+## ------------------------------------------------------------------------
 map4b <- leaflet(sfhomes) %>%
   addProviderTiles("CartoDB.Positron") %>%
   addCircleMarkers(~lon, ~lat, popup=popup_content,
             ### <b>
-             fillColor= ~quantColors(Value),
+             fillColor= ~quantColor_function(Value),
             ### </b>
              radius=6, color="grey", weight=1,fillOpacity = 1
              ) 
@@ -333,14 +396,19 @@ map4b <- leaflet(sfhomes) %>%
 ## ------------------------------------------------------------------------
 map4b  # Graduated color map
 
+## ---- eval=F-------------------------------------------------------------
+## colorQuantile(palette, domain, n = 4,
+##   probs = seq(0, 1, length.out = n + 1),
+##   na.color = "#808080", alpha = FALSE, reverse = FALSE)
+
 ## ------------------------------------------------------------------------
-map4b %>%  addLegend(title = "Value", pal =  quantColors,
+map4b %>%  addLegend(title = "Value", pal =  quantColor_function,
                 values = ~Value, opacity = 1, 
                 position="bottomleft")
 
 ## ------------------------------------------------------------------------
 
-map5 <-map4b %>%   addLegend(pal = quantColors, values = ~Value,
+map5 <-map4b %>%   addLegend(pal = quantColor_function, values = ~Value,
                      title = "Property Value, 2015",
                      position="bottomleft",
                      opacity=1,
@@ -353,37 +421,6 @@ map5 <-map4b %>%   addLegend(pal = quantColors, values = ~Value,
 
 ## ------------------------------------------------------------------------
 map5  # Graduated Color Map
-
-## ---- echo=F-------------------------------------------------------------
-leaflet(sfhomes, width="300px", height="300px") %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addCircleMarkers(~lon, ~lat, popup=popup_content,
-             fillColor= ~numColors(Value),
-             radius=6, color="grey", weight=1, fillOpacity = 1
-             ) 
-
-leaflet(sfhomes, width="300px", height="300px") %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addCircleMarkers(~lon, ~lat, popup=popup_content,
-             fillColor= ~quantColors(Value),
-             radius=6, color="grey", weight=1,fillOpacity = 1
-             ) 
-
-## ------------------------------------------------------------------------
-sfhomes_low2high <- sfhomes[order(sfhomes$Value, decreasing = FALSE),]
-
-map5 <- leaflet(sfhomes_low2high) %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addCircleMarkers(~lon, ~lat, popup=popup_content,
-            ### <b>
-             fillColor= ~quantColors(Value),
-            ### </b>
-             radius=6, color="grey", weight=1,fillOpacity = 1
-             ) 
-
-
-## ------------------------------------------------------------------------
-map5  # points reordered from low to high value
 
 ## ------------------------------------------------------------------------
 sf_md_hhi <- readOGR(dsn="data",layer="sf_medhhincome_acs5y_16")
@@ -428,7 +465,7 @@ map6  # color="grey", weight=1, fillColor="Orange", fillOpacity = 0.25
 
 ## ------------------------------------------------------------------------
 ##
-quantColors <- colorQuantile("YlOrRd", sf_md_hhi$estimate, n=5)
+quantColor_function <- colorQuantile("YlOrRd", sf_md_hhi$estimate, n=5)
 
 ## ------------------------------------------------------------------------
 map6 <- leaflet() %>%
@@ -440,7 +477,7 @@ map6 <- leaflet() %>%
               color="white", 
               weight=1, 
               opacity=0.5,
-              fillColor=~quantColors(estimate), 
+              fillColor=~quantColor_function(estimate), 
               fillOpacity = 0.65,
               popup = paste0("$",sf_md_hhi$estimate))
    ### </b>
@@ -449,7 +486,7 @@ map6 <- leaflet() %>%
 map6  # choropleth map of median household income by census tract
 
 ## ------------------------------------------------------------------------
-map6 <- map6 %>% addLegend(pal = quantColors, 
+map6 <- map6 %>% addLegend(pal = quantColor_function, 
                    values = sf_md_hhi$estimate,
                    title = "Median HH Income",
                    position="bottomleft",
@@ -473,7 +510,7 @@ map7 <- leaflet() %>%
   
   # Median household income polygons
   addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
-              fillColor=~quantColors(estimate), fillOpacity = 0.65,
+              fillColor=~quantColor_function(estimate), fillOpacity = 0.65,
               popup = paste0("$",sf_md_hhi$estimate)) %>%
   
   # sfhomes points
@@ -494,7 +531,7 @@ map8 <- leaflet() %>%
           setView(lng=-122.448889, lat=37.764645, zoom=12) %>%
           addProviderTiles("CartoDB.Positron") %>%
           addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
-              fillColor=~quantColors(estimate), fillOpacity = 0.65,
+              fillColor=~quantColor_function(estimate), fillOpacity = 0.65,
               popup = paste0("$",sf_md_hhi$estimate),
               ### <b>
               group="Median HH Income"
@@ -526,7 +563,7 @@ map8 <- leaflet() %>%
           addTiles("", group="No Basemap") %>%  
           #
           addPolygons(data=sf_md_hhi, color="white", weight=1, opacity=0.5,
-              fillColor=~quantColors(estimate), fillOpacity = 0.65,
+              fillColor=~quantColor_function(estimate), fillOpacity = 0.65,
               popup = paste0("$",sf_md_hhi$estimate),
               group="Median HH Income"
           ) %>%
@@ -548,4 +585,16 @@ map8
 ## ------------------------------------------------------------------------
 #library(htmlwidgets)
 saveWidget(map7, file="testmap.html")
+
+## ---- eval=T, results='hide'---------------------------------------------
+mapurl <- "https://mapwarper.net/maps/tile/25477/{z}/{x}/{y}.png"
+
+map2 <- leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addTiles(mapurl) %>%  # custom map image
+  setView(lat=37.870044, lng=-122.258169, zoom = 13)
+   
+
+## ------------------------------------------------------------------------
+map2  # Map of Berkeley, 1880 overlaid on the CartoDB basemap
 

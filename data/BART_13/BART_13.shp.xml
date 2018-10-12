@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en">
+	<Esri>
+		<CreaDate>20140121</CreaDate>
+		<CreaTime>09004400</CreaTime>
+		<SyncOnce>FALSE</SyncOnce>
+		<SyncDate>20140117</SyncDate>
+		<SyncTime>12011200</SyncTime>
+		<ModDate>20140117</ModDate>
+		<ModTime>12011200</ModTime>
+		<ArcGISFormat>1.0</ArcGISFormat>
+		<DataProperties>
+			<itemProps>
+				<itemLocation>
+					<linkage Sync="TRUE">file://\\svgcgis6\gishq\gisdl\gis\shapes\alb83\rail2013\BART_13.shp</linkage>
+					<protocol Sync="TRUE">Local Area Network</protocol>
+				</itemLocation>
+				<itemName Sync="TRUE">BART_13</itemName>
+				<nativeExtBox>
+					<westBL Sync="TRUE">-217553.632600</westBL>
+					<eastBL Sync="TRUE">-167220.065700</eastBL>
+					<southBL Sync="TRUE">-49278.080200</southBL>
+					<northBL Sync="TRUE">2631.744900</northBL>
+					<exTypeCode Sync="TRUE">1</exTypeCode>
+				</nativeExtBox>
+				<imsContentType Sync="TRUE" export="False">002</imsContentType>
+				<itemSize Sync="TRUE">0.091</itemSize>
+			</itemProps>
+			<lineage>
+				<Process ToolSource="c:\program files\arcgis\desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20120813" Time="165345" Name="" export="">DeleteField BART DATE_;LIFELINE;SACOMMUT;SAFIRST;SALAST;SAMIDDAY;SANIGHT;SAOWL;SUCOMMUT;SUFIRST;SULAST;SUMIDDAY;SUNIGHT;SUOWL;SYSTEM;TRUNKLINE;WKCOMMUT;WKFIRST;WKLAST;WKMIDDAY;WKNIGHT;WKOWL</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="165546" Name="" export="">CalculateField BART ROUTE "Richmond to Daly City - Millbrae" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="165630" Name="" export="">CalculateField BART ROUTE "Pittsburg - Bay Point to SFO - Millbrae" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="165729" Name="" export="">CalculateField BART ROUTE "Dublin - Pleasanton to Daly City" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="165751" Name="" export="">CalculateField BART ROUTE "Fremont to Daly City" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="165807" Name="" export="">CalculateField BART ROUTE "Fremont to Richmond" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="170012" Name="" export="">CalculateField BART Line "Red" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="170026" Name="" export="">CalculateField BART Line "Orange" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="170040" Name="" export="">CalculateField BART Line "Green" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="170058" Name="" export="">CalculateField BART Line "Blue" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="170113" Name="" export="">CalculateField BART Line "Yellow" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120813" Time="170211" Name="" export="">CalculateField BART ROUTE "Dublin - Pleasanton to Daly City - SFO" VB #</Process>
+				<Process ToolSource="c:\program files\arcgis\desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20130204" Time="095742" Name="" export="">CopyFeatures "S:\400 Technical\411 GIS\Deliverables\DraftData\Revision\CA SRP_M4_GIS_20121101.mdb\Commuter\BART" "S:\400 Technical\411 GIS\Deliverables\DraftData\Revision\CA_SRP_M4_GIS_FGDB_20130208.gdb\BART" # 0 0 0</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20130313" Time="121222" Name="" export="">CalculateField BART LINE1 [Line] VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20130313" Time="121252" Name="" export="">CalculateField BART LINE [LINE1] VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20130314" Time="131022" Name="" export="">CalculateField BART ROUTE "Dublin/Pleasanton to Daly City" VB #</Process>
+				<Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20130314" Time="131241" Name="" export="">CalculateField BART ROUTE "Millbrae to SFO Shuttle" VB #</Process>
+				<Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20140117" Time="082253" Name="" export="">FeatureClassToFeatureClass G:\gisdl\gis\OrigData\f_DOTP\Fay2OGIS2013\Rail_pub062013.gdb\Commuter\BART G:\gisdl\gis\shapes\alb83\rail2013 BART_13.shp # "ROUTE "ROUTE" true true false 50 Text 0 0 ,First,#,G:\gisdl\gis\OrigData\f_DOTP\Fay2OGIS2013\Rail_pub062013.gdb\Commuter\BART,ROUTE,-1,-1;Shape_Leng "Shape_Length" false true true 8 Double 0 0 ,First,#,G:\gisdl\gis\OrigData\f_DOTP\Fay2OGIS2013\Rail_pub062013.gdb\Commuter\BART,Shape_Length,-1,-1;LINE "LINE" true true false 10 Text 0 0 ,First,#,G:\gisdl\gis\OrigData\f_DOTP\Fay2OGIS2013\Rail_pub062013.gdb\Commuter\BART,LINE,-1,-1" #</Process>
+				<Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20140121" Time="090044">Project G:\gisdl\gis\shapes\alb83\rail2013\BART_13.shp G:\gisdl\gis\shapes\geo83\Caltrans\Rail\BART_13.shp GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]] # PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]]</Process></lineage>
+			<coordRef>
+				<type Sync="TRUE">Projected</type>
+				<geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn>
+				<csUnits Sync="TRUE">Linear Unit: Meter (1.000000)</csUnits>
+				<projcsn Sync="TRUE">NAD_1983_California_Teale_Albers</projcsn>
+				<peXml Sync="TRUE">&lt;ProjectedCoordinateSystem xsi:type='typens:ProjectedCoordinateSystem' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:typens='http://www.esri.com/schemas/ArcGIS/10.1'&gt;&lt;WKT&gt;PROJCS[&amp;quot;NAD_1983_California_Teale_Albers&amp;quot;,GEOGCS[&amp;quot;GCS_North_American_1983&amp;quot;,DATUM[&amp;quot;D_North_American_1983&amp;quot;,SPHEROID[&amp;quot;GRS_1980&amp;quot;,6378137.0,298.257222101]],PRIMEM[&amp;quot;Greenwich&amp;quot;,0.0],UNIT[&amp;quot;Degree&amp;quot;,0.0174532925199433]],PROJECTION[&amp;quot;Albers&amp;quot;],PARAMETER[&amp;quot;False_Easting&amp;quot;,0.0],PARAMETER[&amp;quot;False_Northing&amp;quot;,-4000000.0],PARAMETER[&amp;quot;Central_Meridian&amp;quot;,-120.0],PARAMETER[&amp;quot;Standard_Parallel_1&amp;quot;,34.0],PARAMETER[&amp;quot;Standard_Parallel_2&amp;quot;,40.5],PARAMETER[&amp;quot;Latitude_Of_Origin&amp;quot;,0.0],UNIT[&amp;quot;Meter&amp;quot;,1.0],AUTHORITY[&amp;quot;EPSG&amp;quot;,3310]]&lt;/WKT&gt;&lt;XOrigin&gt;-16909700&lt;/XOrigin&gt;&lt;YOrigin&gt;-8597000&lt;/YOrigin&gt;&lt;XYScale&gt;266332319.7555542&lt;/XYScale&gt;&lt;ZOrigin&gt;-100000&lt;/ZOrigin&gt;&lt;ZScale&gt;10000&lt;/ZScale&gt;&lt;MOrigin&gt;-100000&lt;/MOrigin&gt;&lt;MScale&gt;10000&lt;/MScale&gt;&lt;XYTolerance&gt;0.001&lt;/XYTolerance&gt;&lt;ZTolerance&gt;0.001&lt;/ZTolerance&gt;&lt;MTolerance&gt;0.001&lt;/MTolerance&gt;&lt;HighPrecision&gt;true&lt;/HighPrecision&gt;&lt;WKID&gt;3310&lt;/WKID&gt;&lt;LatestWKID&gt;3310&lt;/LatestWKID&gt;&lt;/ProjectedCoordinateSystem&gt;</peXml>
+			</coordRef>
+		</DataProperties>
+		<ArcGISstyle>ISO 19139 Metadata Implementation Specification</ArcGISstyle>
+		<ArcGISProfile>ISO19139</ArcGISProfile>
+		<scaleRange>
+			<minScale>150000000</minScale>
+			<maxScale>5000</maxScale>
+		</scaleRange>
+	</Esri>
+	<Binary>
+		<Thumbnail>
+			<Data EsriPropertyType="PictureX">/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsK
+        CwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQU
+        FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCACYANgDASIA
+        AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+        AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+        ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+        p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+        AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+        BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+        U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+        uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9SKKK
+        K+POgKKKKACvJfiFHqviL41eArHTbqIaV4djutZ1q3kUBszwS2tkUO3JJJvOAQAEYtyYw3rVeS+L
+        LzVPA/xF1nxVqOiy3Xhq9sdO037fp1xG/wBhjhmnaS5u1kMZjjBvCSY/NCpC7uUHFduD5fbJyOPG
+        czoSUFqd1RVLRdc03xJpkOo6TqFrqmnzbvKu7KZZopMMVO11JBwQQcHqCKu19QfDNNaMKKxPGnjT
+        Rvh74avPEHiC8+waRZ7PPuPKeTZvdUX5UUscsyjgd/Sr2i65pviTTIdR0nULXVNPm3eVd2UyzRSY
+        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
+        Htxd1cKKKKxKCiiigAooooAKKKKACiiigD//2Q==</Data>
+		</Thumbnail>
+	</Binary>
+	<mdLang>
+		<languageCode value="eng"/>
+		<countryCode value="USA" Sync="TRUE"/>
+	</mdLang>
+	<mdChar>
+		<CharSetCd value="004"/>
+	</mdChar>
+	<mdHrLv>
+		<ScopeCd value="005"/>
+	</mdHrLv>
+	<mdDateSt Sync="TRUE">20140117</mdDateSt>
+	<mdStanName>ArcGIS Metadata</mdStanName>
+	<mdStanVer>1.0</mdStanVer>
+	<distInfo xmlns="">
+		<distFormat xmlns="">
+			<formatName Sync="TRUE">Shapefile</formatName>
+			<formatVer>ArcGIS 10.1</formatVer>
+		</distFormat>
+		<distTranOps><transSize Sync="TRUE">0.091</transSize></distTranOps></distInfo>
+	<dataIdInfo>
+		<idCitation xmlns="">
+			<resTitle Sync="FALSE">BART Routes</resTitle>
+			<date>
+				<createDate>2012-08-13T00:00:00</createDate>
+				<pubDate>2013-10-31T00:00:00</pubDate>
+			</date>
+			<citRespParty xmlns="">
+				<rpOrgName>Caltrans, Division of Transportation Planning, Office of System and Freight Planning</rpOrgName>
+				<rpPosName>GIS Coordinator</rpPosName>
+				<rpCntInfo xmlns="">
+					<cntAddress addressType="both">
+						<delPoint>1120 N. St. MS-32</delPoint>
+						<city>Sacramento</city>
+						<adminArea>CA</adminArea>
+						<postCode>95814</postCode>
+						<country>US</country>
+					</cntAddress>
+				</rpCntInfo>
+				<editorSave>False</editorSave>
+				<displayName>Caltrans, Division of Transportation Planning, Office of System and Freight Planning</displayName>
+				<role>
+					<RoleCd value="007"></RoleCd>
+				</role>
+			</citRespParty>
+			<presForm><PresFormCd value="005" Sync="TRUE"></PresFormCd></presForm></idCitation>
+		<idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P STYLE="margin:7 0 7 0;"&gt;&lt;SPAN&gt;The BART system is a rapid transit system serving the San Francisco Bay Area.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs>
+		<idPurp>The BART line feature class represents the Bay Area Rapid Transit (BART) system.</idPurp>
+		<idCredit>Caltrans, Division of Transportation Planning</idCredit>
+		<idPoC xmlns="">
+			<rpIndName>GIS Coordinator</rpIndName>
+			<rpOrgName>Caltrans, Division of Transportation Planning, Office of System and Freight Planning</rpOrgName>
+			<rpPosName>GIS Coordinator</rpPosName>
+			<rpCntInfo xmlns="">
+				<cntAddress addressType="both">
+					<delPoint>1120 N St., MS-32</delPoint>
+					<city>Sacramento</city>
+					<adminArea>CA</adminArea>
+					<postCode>95814</postCode>
+					<country>US</country>
+				</cntAddress>
+			</rpCntInfo>
+			<role>
+				<RoleCd value="007"></RoleCd>
+			</role>
+		</idPoC>
+		<placeKeys xmlns="">
+			<keyword>California</keyword>
+		</placeKeys>
+		<themeKeys xmlns="">
+			<thesaName xmlns="">
+				<resTitle>ISO 19115 Topic Categories</resTitle>
+			</thesaName>
+			<keyword>transportation</keyword>
+			<keyword>Commuter</keyword>
+		</themeKeys>
+		<searchKeys>
+			<keyword>Bay Area Rapid Transit</keyword>
+			<keyword>BART</keyword>
+			<keyword>Commuter Rail</keyword>
+			<keyword>Urban Rail</keyword>
+		</searchKeys>
+		<resConst>
+			<LegConsts xmlns="">
+				<useLimit>See access and use constraints information.</useLimit>
+			</LegConsts>
+		</resConst>
+		<resConst>
+			<Consts xmlns="">
+				<useLimit>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;This is Category I data. Category I data are public domain and available to share with Caltrans partners. Caltrans makes no representation about the suitability, reliability, availability, timeliness, or accuracy of its GIS data for any purpose. The GIS data and information are provided "as is" without warranty of any kind. Use of the data should be limited to informational and preliminary study purposes only. Caltrans shall not be held liable by users of the data, or by any other party, for any loss or damages, consequential or otherwise, including but not limited to time, money, or goodwill, arising from the use, operation or modification of the data. For planning purposes only. The Rail Database is intended for high level planning purposes and is a point in time reporting of estimated current conditions and forecast of future conditions. While every effort has been made to ensure accuracy of reported data, the Database is not intended for detailed service or facility planning. Such planning requires in-depth site analysis and field confirmation of actual conditions.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</useLimit>
+			</Consts>
+		</resConst>
+		<spatRpType>
+			<SpatRepTypCd value="001"/>
+		</spatRpType>
+		<dataLang>
+			<languageCode value="eng"/>
+			<countryCode value="USA" Sync="TRUE"/>
+		</dataLang>
+		<envirDesc Sync="TRUE">Microsoft Windows 7 Version 6.1 (Build 7601) Service Pack 1; Esri ArcGIS 10.1.1.3143</envirDesc>
+		<dataExt xmlns="">
+			<geoEle>
+				<GeoBndBox>
+					<westBL>-122.481476</westBL>
+					<eastBL>-121.895697</eastBL>
+					<southBL>37.54763</southBL>
+					<northBL>38.024906</northBL>
+				</GeoBndBox>
+			</geoEle>
+		</dataExt>
+		<dataExt xmlns="">
+			<geoEle xmlns="">
+				<GeoBndBox esriExtentType="search">
+					<exTypeCode Sync="TRUE">1</exTypeCode>
+					<westBL Sync="TRUE">-122.481476</westBL>
+					<eastBL Sync="TRUE">-121.895697</eastBL>
+					<northBL Sync="TRUE">38.024906</northBL>
+					<southBL Sync="TRUE">37.547630</southBL>
+				</GeoBndBox>
+			</geoEle>
+		</dataExt>
+		<dataChar>
+			<CharSetCd value="004"/>
+		</dataChar>
+		<tpCat>
+			<TopicCatCd value="018"/>
+		</tpCat>
+	</dataIdInfo>
+	<dqInfo xmlns="">
+		<dqScope>
+			<scpLvl>
+				<ScopeCd value="005"/>
+			</scpLvl>
+		</dqScope>
+		<dataLineage>
+			<prcStep xmlns="">
+				<stepDesc>All data was provided as is from BART with only minor changes to reflect additional track extensions.</stepDesc>
+			</prcStep>
+			<dataSource xmlns="" type="">
+				<srcDesc>Bay Area Rapid Transit, BART</srcDesc>
+			</dataSource>
+		</dataLineage>
+	</dqInfo>
+	<spatRepInfo>
+		<VectSpatRep><geometObjs Name="BART_13"><geoObjTyp><GeoObjTypCd value="002" Sync="TRUE"></GeoObjTypCd></geoObjTyp><geoObjCnt Sync="TRUE">6</geoObjCnt></geometObjs><topLvl><TopoLevCd value="001" Sync="TRUE"></TopoLevCd></topLvl></VectSpatRep></spatRepInfo>
+	<eainfo>
+		<detailed Name="BART_13" xmlns="">
+			<enttyp>
+				<enttypl Sync="TRUE">BART_13</enttypl>
+				<enttypt Sync="TRUE">Feature Class</enttypt>
+				<enttypc Sync="TRUE">6</enttypc>
+				<enttypd>The line feature class of Bay Area Rapid Transit (BART) routes</enttypd>
+				<enttypds>Caltrans</enttypds>
+			</enttyp>
+			<attr xmlns="">
+				<attrlabl Sync="TRUE">FID</attrlabl>
+				<attalias Sync="TRUE">FID</attalias>
+				<attrtype Sync="TRUE">OID</attrtype>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atprecis Sync="TRUE">0</atprecis>
+				<attscale Sync="TRUE">0</attscale>
+				<attrdef Sync="TRUE">Internal feature number.</attrdef>
+				<attrdefs Sync="TRUE">Esri</attrdefs>
+				<attrdomv>
+					<udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom>
+				</attrdomv>
+			</attr>
+			<attr xmlns="">
+				<attrlabl>Line</attrlabl>
+				<attrdef>BART color code line designation</attrdef>
+				<attrdefs>Bay Area Rapid Transit</attrdefs>
+				<attalias Sync="TRUE">LINE</attalias>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attwidth Sync="TRUE">10</attwidth>
+				<atprecis Sync="TRUE">0</atprecis>
+				<attscale Sync="TRUE">0</attscale>
+				<attrdomv>
+					<udom>Unique values</udom>
+				</attrdomv>
+			</attr>
+			<attr xmlns="">
+				<attrlabl>Shape</attrlabl>
+				<attrdef>Feature geometry.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">Shape</attalias>
+				<attrtype Sync="TRUE">Geometry</attrtype>
+				<attwidth Sync="TRUE">0</attwidth>
+				<atprecis Sync="TRUE">0</atprecis>
+				<attscale Sync="TRUE">0</attscale>
+			</attr>
+			<attr xmlns="">
+				<attrlabl Sync="TRUE">Shape_Leng</attrlabl>
+				<attalias Sync="TRUE">Shape_Leng</attalias>
+				<attrtype Sync="TRUE">Double</attrtype>
+				<attwidth Sync="TRUE">19</attwidth>
+				<atprecis Sync="TRUE">0</atprecis>
+				<attscale Sync="TRUE">0</attscale>
+				<attrdef>Line length</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Unique values of lines length calculated by GIS software</udom>
+				</attrdomv>
+			</attr>
+			<attr xmlns="">
+				<attrlabl>ROUTE</attrlabl>
+				<attrdef>Route destination description</attrdef>
+				<attrdefs>Bay Area Rapid Transit</attrdefs>
+				<attalias Sync="TRUE">ROUTE</attalias>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attwidth Sync="TRUE">50</attwidth>
+				<atprecis Sync="TRUE">0</atprecis>
+				<attscale Sync="TRUE">0</attscale>
+				<attrdomv>
+					<udom>Unique values</udom>
+				</attrdomv>
+			</attr>
+		</detailed>
+	</eainfo>
+	<mdHrLvName Sync="TRUE">dataset</mdHrLvName>
+	<refSysInfo>
+		<RefSystem dimension="">
+			<refSysID xmlns="">
+				<identCode code="3310" Sync="TRUE" value="3310"/>
+				<idCodeSpace Sync="TRUE">EPSG</idCodeSpace>
+				<idVersion Sync="TRUE">7.11.2</idVersion>
+			</refSysID>
+		</RefSystem>
+	</refSysInfo>
+	<spdoinfo>
+		<ptvctinf><esriterm Name="BART_13"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom code="3" Sync="TRUE"></efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">6</efeacnt><spindex Sync="TRUE">FALSE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf></spdoinfo>
+	<mdContact xmlns="">
+		<rpIndName>Caltrans GIS data librarian</rpIndName>
+		<rpOrgName>Caltrans, Division of DRISI, Office of GIS</rpOrgName>
+		<rpPosName>Caltrans GIS data librarian</rpPosName>
+		<role>
+			<RoleCd value="007"/>
+		</role>
+		<rpCntInfo xmlns="">
+			<cntAddress addressType="postal">
+				<delPoint>P.O. Box 942874, MS #38</delPoint>
+				<city>Sacramento</city>
+				<adminArea>CA</adminArea>
+				<postCode>94274-0001</postCode>
+				<eMailAdd>ct_gis_data@dot.ca.gov</eMailAdd>
+			</cntAddress>
+			<cntInstr>Send data requests and comments by email.</cntInstr>
+		</rpCntInfo>
+		<displayName>Caltrans GIS data librarian</displayName>
+	</mdContact>
+</metadata>
