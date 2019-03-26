@@ -76,7 +76,7 @@ library(htmlwidgets)
 library(magrittr) # or dplyr
 ```
 
-Install any packages that you do not have on your computer
+## Install any packages that you do not have on your computer
 
 ```{r, eval=FALSE}
 # install.packages("leaflet")
